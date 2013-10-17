@@ -2,3 +2,4 @@
 coverage
 TEST-*.xml
 rspec_results.html
+/test_data/*
