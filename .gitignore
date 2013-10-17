@@ -1,0 +1,4 @@
+.idea
+coverage
+TEST-*.xml
+rspec_results.html
