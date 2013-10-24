@@ -42,10 +42,12 @@ class CallCollectionGenerator
     number_of_calls.times do
       call_arrive_time = rand(min_tick..max_tick)
       call_handle_time = rand(talk_range_min_seconds..talk_range_max_seconds)
-      caller_choice = CALLER_CHOICES[rand(0..1)]
-      seconds_till_abandon = get_abandon_tick_by(rand(1..100))
 
-      call = Call.new(call_arrive_time, caller_choice, call_handle_time, seconds_till_abandon)
+      caller_choice = CALLER_CHOICES[rand(0..1)]
+      abandon_percentile = rand(1..100)
+      #hold_tolerance_percentile
+
+      call = Call.new(call_arrive_time, caller_choice, call_handle_time, abandon_percentile)
       @calls << call
       puts call
     end
