@@ -18,7 +18,7 @@ Call = Struct.new(
                   :arrival_tick,
                   :user_choice,
                   :handle_time,
-                  :abandon_tick
+                  :abandon_percentile #hold_tolerance_percentile
 )
 
 class CallCollectionGenerator
@@ -45,7 +45,6 @@ class CallCollectionGenerator
 
       caller_choice = CALLER_CHOICES[rand(0..1)]
       abandon_percentile = rand(1..100)
-      #hold_tolerance_percentile
 
       call = Call.new(call_arrive_time, caller_choice, call_handle_time, abandon_percentile)
       @calls << call
