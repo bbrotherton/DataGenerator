@@ -32,6 +32,20 @@ class CallCollectionGenerator
     end
   end
 
+  def write_csv_to filepath
+    path = filepath
+    path = File.join(File.dirname(__FILE__), path) unless path.include? ":"
+
+    @file = File.open(path, 'w')
+
+    write_header_line @file
+    write_all_calls @file
+
+    @file.close
+  end
+
+  private
+
   def generate_calls_for_interval number_of_calls, min_tick, max_tick
     total_simulated_seconds = CALLS_PER_INTERVAL.size * INTERVAL_LENGTH
     puts total_simulated_seconds
@@ -54,20 +68,6 @@ class CallCollectionGenerator
     puts @calls.length
   end
 
-  def write_csv_to filepath
-    path = filepath
-    path = File.join(File.dirname(__FILE__), path) unless path.include? ":"
-
-    @file = File.open(path, 'w')
-
-    write_header_line @file
-    write_all_calls @file
-
-    @file.close
-  end
-
-  private
-
   def write_header_line file
     member_names = "#{Call.members.join(",")}"
 
@@ -83,25 +83,8 @@ class CallCollectionGenerator
       file.syswrite "\n" unless (index == @calls.size - 1)
     end
   end
-
-  def get_abandon_tick_by percentile
-    case percentile
-      when 1..38; 60
-      when 39..55; 120
-      when 56..62; 180
-      when 63..68; 240
-      when 69..72; 300
-      when 73..78; 420
-      when 79..83; 540
-      when 84..88; 720
-      when 89..92; 960
-      when 93..95; 1380
-      when 96..98; 2520
-      when 99..99; 3600
-    end
-  end
 end
 
 gen = CallCollectionGenerator.new
 gen.generate_calls CALLS_PER_INTERVAL, INTERVAL_LENGTH
-gen.write_csv_to "test_data/whole_day.csv"
+gen.write_csv_to "test_data/brians_call_input_s1021.csv"
